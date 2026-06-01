@@ -51,7 +51,7 @@ CREATE TABLE messages (
   tenant_id TEXT NOT NULL,
   conversation_id TEXT NOT NULL,
   direction TEXT NOT NULL CHECK (direction IN ('inbound', 'outbound', 'system')),
-  source TEXT NOT NULL CHECK (source IN ('end user', 'ai', 'human_admin', 'system')),
+  source TEXT NOT NULL CHECK (source IN ('end_user', 'ai', 'human_admin', 'system')),
   content TEXT NOT NULL,
   provider_message_id TEXT,
   outbox_id UUID,
@@ -61,6 +61,19 @@ CREATE TABLE messages (
 CREATE INDEX ON messages (conversation_id, received_at);
 CREATE INDEX ON messages (tenant_id, received_at);
 ```
+
+`direction` = direction relative to business channel.  
+`source` = actor who produced the message.
+
+| Case | direction | source |
+|---|---|---|
+| Customer message | inbound | end_user |
+| AI reply | outbound | ai |
+| Human admin same-number reply | outbound | human_admin |
+| System/internal note | system | system |
+
+For context-preserving resume after handoff, include rows with `source = 'human_admin'` in model history and label them as `Admin [TenantName]`, not as AI.
+This source enum is aligned with `wa-agent-dashboard` issue #2 migration contract.
 
 ## Outbox messages
 

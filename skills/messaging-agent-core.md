@@ -60,7 +60,7 @@ The messaging channel bridge emits `key: { business_outbound: true }` when the a
 ### Context-preserving resume
 When client messages after the 1-hour window:
 - Transition to `ai_active`, owner: `ai`
-- Human outbound messages labeled as "Admin [TenantName]" in model context (not as AI replies)
+- Include messages with `source = 'human_admin'` in model context and label them as "Admin [TenantName]" (not as AI replies)
 - Inject operational note to continue naturally, not restart from greeting
 - Never ask name/business again if history is non-empty
 

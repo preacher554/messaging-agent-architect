@@ -140,7 +140,7 @@ reply_instruction: "Balas dari nomor messaging channel bisnis/agent yang sama."
 
 When AI resumes after human takeover, the history fed to the model must:
 
-1. **Distinguish human admin messages from AI messages**: Label `business_outbound: true` outbound as `Admin [TenantName]`, not as the AI agent.
+1. **Distinguish human admin messages from AI messages**: Include `messages.source = 'human_admin'` rows and label those outbound messages as `Admin [TenantName]`, not as the AI agent.
 2. **Inject resume context**: Operational note explaining the resume situation.
 3. **Preserve full conversation window**: Include the human admin's messages.
 4. **Avoid restart loops**: If history contains 3+ messages from the human window, acknowledge them naturally.
