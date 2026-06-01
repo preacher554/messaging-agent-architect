@@ -1,0 +1,2 @@
+# Vendor directory - external reference repos (not tracked as git submodule)
+vendor/*/.git
